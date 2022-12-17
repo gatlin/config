@@ -1,0 +1,30 @@
+# Increase volume
+"pactl set-sink-volume @DEFAULT_SINK@ +1000"
+   XF86AudioRaiseVolume
+
+# Decrease volume
+"pactl set-sink-volume @DEFAULT_SINK@ -1000"
+   XF86AudioLowerVolume
+
+# Mute volume
+"pactl set-sink-mute @DEFAULT_SINK@ toggle"
+   XF86AudioMute
+
+# Mute microphone
+"pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+   XF86AudioMicMute
+
+# Increase screen brightness
+"light -As sysfs/backlight/auto 2"
+  XF86MonBrightnessUp
+
+# Decrease screen brightness
+"light -Us sysfs/backlight/auto 2"
+  XF86MonBrightnessDown
+
+# Play / Pause
+"/home/gcj/.local/bin/playpause play"
+  XF86AudioPlay
+
+"/home/gcj/.local/bin/playpause pause"
+  XF86AudioPause

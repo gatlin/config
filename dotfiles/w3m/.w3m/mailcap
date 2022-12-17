@@ -1,0 +1,2 @@
+application/xhtml+xml; cat %s; x-htmloutput
+application/pdf; /usr/bin/mupdf '%s'; test=test "$DISPLAY" != ""; description=Portable Document Format; nametemplate=%s.pdf

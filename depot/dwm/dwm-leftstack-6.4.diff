@@ -1,0 +1,36 @@
+diff --git a/config.def.h b/config.def.h
+index 061ad66..89e3f17 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -39,7 +39,7 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
+ 
+ static const Layout layouts[] = {
+ 	/* symbol     arrange function */
+-	{ "[]=",      tile },    /* first entry is default */
++	{ "=[]",      tile },    /* first entry is default */
+ 	{ "><>",      NULL },    /* no layout function means floating behavior */
+ 	{ "[M]",      monocle },
+ };
+diff --git a/dwm.c b/dwm.c
+index e5efb6a..2f08688 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -1683,14 +1683,12 @@ tile(Monitor *m)
+ 	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+ 		if (i < m->nmaster) {
+ 			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
+-			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
+-			if (my + HEIGHT(c) < m->wh)
+-				my += HEIGHT(c);
++			resize(c, m->wx + m->ww - mw, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
++			my += HEIGHT(c);
+ 		} else {
+ 			h = (m->wh - ty) / (n - i);
+-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
+-			if (ty + HEIGHT(c) < m->wh)
+-				ty += HEIGHT(c);
++			resize(c, m->wx, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
++			ty += HEIGHT(c);
+ 		}
+ }
+ 

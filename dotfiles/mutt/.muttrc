@@ -1,0 +1,21 @@
+
+set use_from = yes
+mailboxes = +INBOX
+set header_cache = ~/.cache/mutt
+set message_cachedir = "~/.cache/mutt"
+unset imap_passive
+set imap_keepalive = 300
+set mail_check = 12
+set mailcap_path = ~/.mutt/mailcap
+auto_view text/html
+
+source "gpg -dq $HOME/.mutt-pwds.gpg |"
+
+source ~/.mutt/niltag
+folder-hook $folder 'source ~/.mutt/niltag'
+
+source ~/.mutt/gpg.rc
+
+set query_command = "echo %s | xargs khard email --parsable --"
+bind editor <Tab> complete-query
+bind editor ^T    complete

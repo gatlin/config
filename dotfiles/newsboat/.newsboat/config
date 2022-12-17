@@ -1,0 +1,9 @@
+browser "w3m %u"
+external-url-viewer "urlview"
+bind-key U show-urls
+urls-source "ocnews"
+ocnews-url "https://box.niltag.net/cloud"
+ocnews-login "gatlin@niltag.net"
+ocnews-passwordeval "gpg -dq $HOME/.nextcloudnews-pwd.gpg"
+notify-xterm yes
+#show-read-articles no

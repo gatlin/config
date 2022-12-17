@@ -1,0 +1,17 @@
+# Receive
+set imap_user=gatlin@niltag.net
+set imap_pass=$my_pass
+set folder = imaps://box.niltag.net
+set spoolfile = +INBOX
+set postponed=+Drafts
+set record=+Sent
+
+# Send
+set smtp_url=smtp://$imap_user:$imap_pass@box.niltag.net:587
+set smtp_pass=$imap_pass
+set realname = 'Gatlin C Johnson'
+set from = gatlin@niltag.net
+set ssl_force_tls = yes
+set ssl_starttls = yes
+
+account-hook $folder "set imap_user=$imap_user imap_pass=$imap_pass"
