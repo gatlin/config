@@ -9,7 +9,18 @@ There are two kinds of configuration captured here:
 
 ## Prerequisites
 
+For package management and source code management:
+
 - GNU `stow`
+- `git`
+
+Utilities assumed by various scripts and configs:
+
+- `fzf`
+- `rg`
+- `urlscan`
+- `w3m` and its `w3mimg` image loading extensions
+- `newsboat`
 
 # Dotfiles
 

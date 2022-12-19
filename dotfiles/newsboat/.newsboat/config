@@ -1,5 +1,5 @@
 browser "w3m %u"
-external-url-viewer "urlview"
+external-url-viewer "urlscan"
 bind-key U show-urls
 urls-source "ocnews"
 ocnews-url "https://box.niltag.net/cloud"
