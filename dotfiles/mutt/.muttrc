@@ -19,3 +19,4 @@ source ~/.mutt/gpg.rc
 set query_command = "echo %s | xargs khard email --parsable --"
 bind editor <Tab> complete-query
 bind editor ^T    complete
+macro pager \cb <pipe-entry>'urlscan'<enter> 'Follow links with urlview'
