@@ -1,0 +1,15 @@
+#!/usr/bin/env perl
+use v5.22;
+no warnings 'utf8';
+
+sub enfullen {
+  say join ' ', map {
+    join '', map {
+      pack "W*", $_+0xFEE0
+    } unpack "W*", $_
+  } @_;
+}
+
+enfullen @ARGV and exit 0 unless (!@ARGV);
+while (<>) { chomp $_; enfullen $_ ; }
+

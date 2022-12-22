@@ -1,0 +1,115 @@
+#!/bin/bash
+
+###
+# Control bluetooth
+# Requirements:
+# - user has permissions to run `sudo rfkill`
+# - `notify-send` is in the path
+# - fzf
+# - dmenu
+
+function running_interactively { [ -t 0 ] && [ -t 2 ]; }
+
+function say {
+  if running_interactively ; then
+    echo $@
+  else
+    /usr/bin/notify-send $@
+  fi
+}
+
+function print_help {
+  echo "Usage: bt [action] (action arguments ...)"
+  echo "Available actions:"
+  awk '/^  [a-zA-Z]*\)/ { \
+    print substr($1, 0, index($1, ")")-1); \
+    if (match(prev, /^  ## (.*)/)) { \
+      printf "\t%s\n", substr(prev, RSTART + 5, RLENGTH); \
+    } \
+  } \
+  { prev = $$0 } \' "${0}"
+}
+
+function bt_status {
+  echo $(/usr/sbin/rfkill | grep bluetooth | tr -s ' ' | cut -f5 -d ' ')
+}
+
+if [ -z "${1}" ]; then
+  if running_interactively ; then
+    print_help
+  else
+    notify-send 'Run `bt` from terminal for help.'
+  fi
+  exit 1
+fi
+
+CMD="${1}"
+
+case "${CMD}" in
+
+  ## Display whether bluetooth is currently enabled.
+  status)
+    BLOCKED=$(bt_status)
+    if [ "${BLOCKED}" == "blocked" ]; then
+      say "Bluetooth is DISABLED"
+    else
+      say "Bluetooth is ENABLED"
+    fi
+    ;;
+
+  ## Enable bluetooth radio.
+  start)
+    sudo /usr/sbin/rfkill unblock bluetooth || exit 1
+    bluetoothctl -- power on
+    say "Bluetooth enabled"
+    ;;
+
+  ## Disable bluetooth radio.
+  stop)
+    sudo /usr/sbin/rfkill block bluetooth || exit 1
+    bluetoothctl -- power off
+    say "Bluetooth disabled"
+    ;;
+
+  ## Display a menu of devices nearby to connect to
+  connect)
+    BLOCKED=$(bt_status)
+    if [ "${BLOCKED}" == "blocked" ]; then
+      exit 0;
+    fi
+    bluetoothctl -- scan
+    if running_interactively ; then
+      bluetoothctl -- devices | \
+        cut -d' ' -f2- | \
+        fzf --reverse --with-nth=2.. \
+        --bind 'enter:execute(bluetoothctl -- connect {1})'
+    else
+      bluetoothctl -- connect \
+        $(bluetoothctl -- devices | \
+        dmenu -l 10 | \
+        cut -d' ' -f2)
+    fi
+    ;;
+
+  ## Display a menu of devices nearby to disconnect from
+  disconnect)
+    BLOCKED=$(bt_status)
+    if [ "${BLOCKED}" == "blocked" ]; then
+      exit 0;
+    fi
+    if running_interactively ; then
+      bluetoothctl -- devices | \
+        cut -d' ' -f2- | \
+        fzf --reverse --with-nth=2.. \
+        --bind 'enter:execute(bluetoothctl -- disconnect {1})'
+    else
+      bluetoothctl -- disconnect \
+        $(bluetoothctl -- devices | \
+        dmenu -l 10 | \
+        cut -d' ' -f2)
+    fi
+    ;;
+
+esac
+
+exit 0

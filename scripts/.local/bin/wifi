@@ -1,0 +1,122 @@
+#!/bin/bash
+
+###
+# Control system wifi connections and VPNs.
+
+function running_interactively { [ -t 0 ] && [ -t 2 ]; }
+
+function say {
+  if running_interactively ; then
+    echo $@
+  else
+    /usr/bin/notify-send $@
+  fi
+}
+
+function print_help {
+  echo "Usage:"
+  echo "  wifi [action] (action arguments ...)"
+  echo "Available actions:"
+  awk '/^  [a-zA-Z]*\)/ { \
+    print substr($1, 0, index($1, ")")-1); \
+    if (match(prev, /^  ## (.*)/)) { \
+      printf "\t%s\n", substr(prev, RSTART + 5, RLENGTH); \
+    } \
+  } \
+  { prev = $$0 } \' "${0}"
+}
+
+ACTION="${1}"
+
+if [ -z "${ACTION}" ]; then
+  print_help
+  exit 1
+fi
+
+case "${ACTION}" in
+  ## List available network SSIDs.
+  list)
+    nmcli dev wifi list
+    ;;
+
+  ## Information about known networks.
+  info)
+    nmcli con show
+    ;;
+
+  ## Connect to the specified network SSID.
+  connect)
+    SSID="${2}"
+    if [ -z "${SSID}" ]; then
+      echo "Please specify an SSID."
+      exit 1
+    fi
+    nmcli --ask dev wifi connect "${SSID}"
+    notify-send "Wifi connected to ${SSID}"
+    ;;
+
+  ## Disconnect from the specified network SSID.
+  disconnect)
+    SSID="${2}"
+    if [ -z "${SSID}" ]; then
+      echo "Please specify an SSID."
+      exit 1
+    fi
+    nmcli con down "${SSID}"
+    notify-send "Wifi disconnected"
+    ;;
+
+  ## Display saved network SSIDs.
+  saved)
+    NAME="${2}"
+    if [ -z "${NAME}" ]; then
+      nmcli con show
+    else
+      nmcli con up "${NAME}"
+    fi
+    ;;
+
+  ## Import, start, and stop OpenVPN profiles.
+  vpn)
+    VPN_CMD="${2}"
+    if [ -z "${VPN_CMD}" ]; then
+      echo "Please specify a VPN action: import | start | stop"
+      exit 1
+    fi
+    case "${VPN_CMD}" in
+      import)
+        OVPN_FILE="${3}"
+        if [ -z "${OVPN_FILE}" ]; then
+          echo "Please specify an OVPN file!"
+          exit 1
+        fi
+        if [ ! -f "${OVPN_FILE}" ]; then
+          echo "OVPN file does not exist: ${OVPN_FILE}"
+          exit 1
+        fi
+        nmcli connection import type openvpn file ${OVPN_FILE}
+        ;;
+      start)
+        VPN_CON="${3}"
+        if [ -z "${VPN_CON}" ]; then
+          echo "Please specify a VPN connection!"
+          exit 1
+        fi
+        nmcli con up "${VPN_CON}"
+        ;;
+
+      stop)
+        VPN_CON="${3}"
+        if [ -z "${VPN_CON}" ]; then
+          echo "Please specify a VPN connection!"
+          exit 1
+        fi
+        nmcli con down "${VPN_CON}"
+        ;;
+    esac
+    ;;
+
+esac
+
+exit 0
+

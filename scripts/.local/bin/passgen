@@ -1,0 +1,2 @@
+#!/bin/sh
+perl -MCrypt::XkcdPassword -E 'say Crypt::XkcdPassword->make_password'

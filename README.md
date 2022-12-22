@@ -2,10 +2,11 @@
 
 My desktop configuration at present is semi-automated.
 
-There are two kinds of configuration captured here:
+There are three kinds of configuration captured here:
 
-1. dotfiles in `dotfiles/`, and
-2. patches / source code mods in `depot/` (see below).
+1. dotfiles in `dotfiles/`,
+2. patches / source code mods in `depot/` (see below), and
+3. custom scripts I have written over time.
 
 ## Prerequisites
 
@@ -62,5 +63,17 @@ To install a given `$PKG`,
 
 **Note**: different packages may require marginally different arguments to
 `make` so see their specific README first.
+
+# Scripts
+
+I have written helper scripts to assist with wifi and bluetooth connections,
+generate passwords, and generate ｆｕｌｌｗｉｄｔｈ ｔｅｘｔ (among other
+concerns).
+Since `.local/bin` is in my shell PATH all of my scripts are installed there
+with one command:
+
+```console
+> stow -t $HOME scripts
+```
 
 [suckless]: https://suckless.org/hacking

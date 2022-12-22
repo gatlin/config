@@ -1,0 +1,31 @@
+#!/bin/bash
+
+###
+# This script handles my media play / pause keys.
+# I require a command argument for logging; right now the correct action is
+# determined entirely via context.
+
+if [ -z "${1}" ]; then
+  echo "Please specify a command."
+  exit 1;
+fi
+
+COMMAND="${1}"
+echo "COMMAND: ${COMMAND}" >> playpause.log
+
+# is MPD playing?
+MPD_PLAYING=$(mpc status | tail -n2 | head -n1 | awk ' \
+  /paused/ { print 0 } \
+  /play/ { print 1 }')
+
+# check to see if any other likely applications are already running
+# (it's likely the button press was intended for them).
+
+
+if [ $MPD_PLAYING -eq "0" ]; then
+  mpc play
+else
+  mpc pause
+fi
+
+exit 0
