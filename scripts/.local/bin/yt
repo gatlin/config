@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+  echo "Please specify search terms"
+  exit 1
+fi
+
+SEARCHTERMS="$@"
+
+yt-dlp \
+  -i ytsearch10:"${SEARCHTERMS}" \
+  --get-id --get-title 2>/dev/null | \
+  awk -v RS= -F'\n' '{ for (i=1; i<NF; i+=2) print $(i+1), $i; print ""}' | \
+  fzf --reverse \
+  --disabled \
+  --with-nth=2.. \
+  --preview "yt-dlp --dump-single-json --no-download {1} 2>/dev/null | jq '.description'" \
+  --preview-window wrap \
+  --bind "enter:execute(yt-dlp '{1}' -o - | mpv -)"
