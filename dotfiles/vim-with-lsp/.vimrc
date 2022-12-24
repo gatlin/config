@@ -71,6 +71,7 @@ nmap     <silent> <Space>    za:nohlsearch<CR>
 nmap w1 :.w >>\\#bookz/in<cr>
 nnoremap <C-g> :Rg<Cr>
 nnoremap <C-f> :FZF<Cr>
+nnoremap <C-n> :NERDTreeTabsToggle<Cr>
 
 " Splitting
 set splitright

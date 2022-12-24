@@ -44,6 +44,8 @@ set pastetoggle=<F3>
 nmap     <silent> <Space>    za:nohlsearch<CR>
 nmap w1 :.w >>\\#bookz/in<cr>
 nnoremap <C-g> :Rg<Cr>
+nnoremap <C-f> :FZF<Cr>
+nnoremap <C-n> :NERDTreeTabsToggle<Cr>
 
 " Splitting
 set splitright
@@ -158,7 +160,6 @@ call plug#begin(data_dir . '/plugged')
 
   Plug 'dense-analysis/ale'
   Plug 'preservim/nerdtree'
-  " Plug 'neoclide/coc.nvim', {'branch': 'release'} " for zig
   Plug 'ziglang/zig.vim'
   Plug 'vim-pandoc/vim-pandoc'
   Plug 'vim-pandoc/vim-pandoc-syntax'

@@ -86,7 +86,7 @@ case "${CMD}" in
     else
       bluetoothctl -- connect \
         $(bluetoothctl -- devices | \
-        dmenu -l 10 | \
+        dmenu -l 10 -p '>' | \
         cut -d' ' -f2)
     fi
     ;;
@@ -105,7 +105,7 @@ case "${CMD}" in
     else
       bluetoothctl -- disconnect \
         $(bluetoothctl -- devices | \
-        dmenu -l 10 | \
+        dmenu -l 10 -p '>' | \
         cut -d' ' -f2)
     fi
     ;;
