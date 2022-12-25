@@ -2,7 +2,8 @@
 
 apt-cache pkgnames | \
   fzf --multi --reverse \
-  --preview 'echo $(apt -qq list 2>/dev/null {1}) && apt info {1} 2>/dev/null' \
+  --preview 'echo $(apt -qq list 2>/dev/null {1} | grep installed) && echo $(apt info {1} 2>/dev/null)' \
+  --preview-window 'wrap,up,60%' \
   ## install a package
   --bind 'ctrl-i:execute(sudo apt install {1})' \
   ## uninstall a package
