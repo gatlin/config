@@ -3,6 +3,7 @@
 """"""""""""""""""
 
 " VARIABLES -------------------------------------------------------------- {{{
+let g:tmux_navigator_no_mappings = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme='luna'
 let g:ale_zig_zls_executable = '/usr/local/bin/zls'
@@ -46,6 +47,11 @@ nmap w1 :.w >>\\#bookz/in<cr>
 nnoremap <C-g> :Rg<Cr>
 nnoremap <C-f> :FZF<Cr>
 nnoremap <C-n> :NERDTreeTabsToggle<Cr>
+noremap <silent> <C-h> :<C-U>TmuxNavigateLeft<cr>
+noremap <silent> <C-j> :<C-U>TmuxNavigateDown<cr>
+noremap <silent> <C-k> :<C-U>TmuxNavigateUp<cr>
+noremap <silent> <C-l> :<C-U>TmuxNavigateRight<cr>
+noremap <silent> <C-p> :<C-U>TmuxNavigatePrevious<cr>
 
 " Splitting
 set splitright
@@ -168,6 +174,7 @@ call plug#begin(data_dir . '/plugged')
   Plug 'jistr/vim-nerdtree-tabs'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 " }}}

@@ -127,3 +127,9 @@ export IRC_DIR=$HOME/irc
 
 export MANPATH=".local/share/man:$MANPATH"
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
+
+export PAGER="less"
+export LESS="-R"
+if [ -f "/usr/share/source-highlight/src-hilite-lesspipe.sh" ]; then
+  export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+fi
