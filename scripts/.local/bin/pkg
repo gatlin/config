@@ -2,8 +2,11 @@
 
 apt-cache pkgnames | \
   fzf --multi --reverse \
-  --preview 'apt info {1}' \
+  --preview 'echo $(apt -qq list 2>/dev/null {1}) && apt info {1} 2>/dev/null' \
+  ## install a package
   --bind 'ctrl-i:execute(sudo apt install {1})' \
+  ## uninstall a package
+  --bind 'ctrl-u:execute(sudo apt remove {1..})' \
   --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108 \
   --color info:108,prompt:109,spinner:108,pointer:168,marker:168
 exit 0
