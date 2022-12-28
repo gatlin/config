@@ -1,11 +1,13 @@
 #!/bin/bash
-#
+
 khard list | \
   tail -n+2 | \
   fzf --reverse \
-  --preview-window=~1 \
   --with-nth=2.. \
   --preview "khard show {2} {3}" \
-  --bind "ctrl-e:execute(khard edit {2} {3}),ctrl-a:execute(khard new)" \
+  --preview-window 'up,33%' \
+  --bind "ctrl-e:execute(khard edit {2} {3})" \
+  --bind "ctrl-a:execute(khard new)" \
+  --header-lines=1 \
   --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108 \
   --color info:108,prompt:109,spinner:108,pointer:168,marker:168
