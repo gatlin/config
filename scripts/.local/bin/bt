@@ -8,6 +8,8 @@
 # - fzf
 # - dmenu
 
+PROGRAM_NAME=$(basename $0) # This will be used in a few messages
+
 function running_interactively { [ -t 0 ] && [ -t 2 ]; }
 
 function say {
@@ -19,8 +21,8 @@ function say {
 }
 
 function print_help {
-  echo "Usage: bt [action] (action arguments ...)"
-  echo "Available actions:"
+  printf "Usage:\t$PROGRAM_NAME [action] (action arguments ...)\n"
+  printf "Available actions:\n"
   awk '/^  [a-zA-Z]*\)/ { \
     print substr($1, 0, index($1, ")")-1); \
     if (match(prev, /^  ## (.*)/)) { \
