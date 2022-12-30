@@ -112,6 +112,16 @@ case "${CMD}" in
     fi
     ;;
 
+  ## List paired devices
+  paired)
+    say Paired:
+    bluetoothctl -- info | \
+      awk '/Name/ { devName = $0; } /Paired\: yes/ { printf devName; } ' | \
+      tr -d "\t" | \
+      sed 's/Name: \(.*\)/\1/' | \
+      xargs -I{} notify-send "{}"
+    ;;
+
 esac
 
 exit 0
