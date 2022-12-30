@@ -114,7 +114,6 @@ case "${CMD}" in
 
   ## List paired devices
   paired)
-    say Paired:
     bluetoothctl -- info | \
       awk '/Name/ { devName = $0; } /Paired\: yes/ { printf devName; } ' | \
       tr -d "\t" | \
