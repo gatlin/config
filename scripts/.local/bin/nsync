@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Handles synchronization with Nextcloud.
+
+USERNAME='gatlin@niltag.net'
+PASSWORD=$(gpg -dq $HOME/.owncloudcmd.gpg)
+
+SRC_DIR=$HOME/Nextcloud
+REMOTE_DIR='https://box.niltag.net/cloud/'
+
+owncloudcmd \
+  -u "$USERNAME" \
+  -p "$PASSWORD" \
+  --non-interactive \
+  "$SRC_DIR" \
+  "$REMOTE_DIR"
