@@ -40,7 +40,7 @@ if [ -z "${1}" ]; then
   if running_interactively ; then
     print_help
   else
-    notify-send 'Run `bt` from terminal for help.'
+    notify-send "Run $PROGRAM_NAME from terminal for usage help."
   fi
   exit 1
 fi

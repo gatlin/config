@@ -3,20 +3,20 @@
 ###
 # Control system wifi connections and VPNs.
 
+PROGRAM_NAME=$(basename $0) # This will be used in a few messages
 function running_interactively { [ -t 0 ] && [ -t 2 ]; }
 
 function say {
   if running_interactively ; then
     echo $@
   else
-    /usr/bin/notify-send $@
+    echo $@ | xargs -I{} /usr/bin/notify-send "{}"
   fi
 }
 
 function print_help {
-  echo "Usage:"
-  echo "  wifi [action] (action arguments ...)"
-  echo "Available actions:"
+  printf "Usage:  $PROGRAM_NAME [action] (action arguments ...)\n"
+  printf "Available actions:\n"
   awk '/^  [a-zA-Z]*\)/ { \
     print substr($1, 0, index($1, ")")-1); \
     if (match(prev, /^  ## (.*)/)) { \
@@ -29,7 +29,11 @@ function print_help {
 ACTION="${1}"
 
 if [ -z "${ACTION}" ]; then
-  print_help
+  if running_interactively; then
+    print_help
+  else
+    say "Run $PROGRAM_NAME from the console for usage help."
+  fi
   exit 1
 fi
 
@@ -52,7 +56,7 @@ case "${ACTION}" in
       exit 1
     fi
     nmcli --ask dev wifi connect "${SSID}"
-    notify-send "Wifi connected to ${SSID}"
+    say "Wifi connected to ${SSID}"
     ;;
 
   ## Disconnect from the specified network SSID.

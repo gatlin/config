@@ -27,6 +27,9 @@ while read -r arg; do
     *.mp3)
       $TERMINAL mpg123 -opulse "$arg" &
       ;;
+    *.html)
+      $BROWSER "$arg" &
+      ;;
     *.od[tsp]|*.doc|*.docx|*.ppt|*.pptx|*.xls|*.xlsx)
       libreoffice "$arg" &
       ;;
