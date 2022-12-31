@@ -8,6 +8,10 @@ PASSWORD=$(gpg -dq $HOME/.owncloudcmd.gpg)
 SRC_DIR=$HOME/Nextcloud
 REMOTE_DIR='https://box.niltag.net/cloud/'
 
+# sync caldav
+vdirsyncer sync
+
+# sync files
 owncloudcmd \
   -u "$USERNAME" \
   -p "$PASSWORD" \
