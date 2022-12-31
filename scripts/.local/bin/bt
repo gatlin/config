@@ -114,11 +114,18 @@ case "${CMD}" in
 
   ## List paired devices
   paired)
-    bluetoothctl -- info | \
-      awk '/Name/ { devName = $0; } /Paired\: yes/ { printf devName; } ' | \
-      tr -d "\t" | \
-      sed 's/Name: \(.*\)/\1/' | \
-      xargs -I{} notify-send "{}"
+    if running_interactively; then
+      bluetoothctl -- info | \
+        tr -d "\t" | \
+        awk '/Name/ { devName = $0; } /Paired\: yes/ { printf devName; } ' | \
+        sed 's/Name: \(.*\)/\1\n/'
+    else
+      bluetoothctl -- info | \
+        tr -d "\t" | \
+        awk '/Name/ { devName = $0; } /Paired\: yes/ { printf devName; } ' | \
+        sed 's/Name: \(.*\)/\1\n/' | \
+        xargs -I{} notify-send "{}"
+    fi
     ;;
 
 esac
