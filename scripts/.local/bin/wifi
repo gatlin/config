@@ -70,7 +70,7 @@ case "${ACTION}" in
     notify-send "Wifi disconnected"
     ;;
 
-  ## Display saved network SSIDs.
+  ## Display saved network SSIDs or connect to one by name.
   saved)
     NAME="${2}"
     if [ -z "${NAME}" ]; then
