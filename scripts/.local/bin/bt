@@ -16,7 +16,7 @@ function say {
   if running_interactively ; then
     echo $@
   else
-    /usr/bin/notify-send $@
+    echo $@ | xargs -I{} /usr/bin/notify-send "{}"
   fi
 }
 
