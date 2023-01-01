@@ -27,6 +27,11 @@ function print_help {
 }
 
 ACTION="${1}"
+if running_interactively; then
+  MENU="fzf --sync --reverse --header-lines=1 --prompt 📡"
+else
+  MENU="dmenu -l 10 -p 📡"
+fi
 
 if [ -z "${ACTION}" ]; then
   if running_interactively; then
@@ -52,7 +57,9 @@ case "${ACTION}" in
   connect)
     SSID="${2}"
     if [ -z "${SSID}" ]; then
-      echo "Please specify an SSID."
+      SSID=$(nmcli dev wifi list | tail -n+2 | $MENU | sed 's/^\*\(.*\)/\1/' | tr -s ' ' | cut -f2 -d ' ')
+    fi
+    if [ -z "${SSID}" ]; then
       exit 1
     fi
     nmcli --ask dev wifi connect "${SSID}"
@@ -63,17 +70,18 @@ case "${ACTION}" in
   disconnect)
     SSID="${2}"
     if [ -z "${SSID}" ]; then
-      echo "Please specify an SSID."
+      echo "Please specify a connection."
       exit 1
     fi
     nmcli con down "${SSID}"
-    notify-send "Wifi disconnected"
+    say "Wifi disconnected"
     ;;
 
   ## Display saved network SSIDs or connect to one by name.
   saved)
     NAME="${2}"
     if [ -z "${NAME}" ]; then
+      SSID=$(nmcli dev wifi list | tail -n+2 | $MENU | sed 's/^\*\(.*\)/\1/' | tr -s ' ' | cut -f2 -d ' ')
       nmcli con show
     else
       nmcli con up "${NAME}"

@@ -1,20 +1,73 @@
 #!/bin/bash
 #
 # Handles synchronization with Nextcloud.
+PROGRAM_NAME=$(basename $0) # This will be used in a few messages
+
+function running_interactively { [ -t 0 ] && [ -t 2 ]; }
+
+function say {
+  if running_interactively ; then
+    echo $@
+  else
+    echo $@ | xargs -I{} /usr/bin/notify-send "{}"
+  fi
+}
+
+function print_help {
+  printf "Usage:\t$PROGRAM_NAME [action] (action arguments ...)\n"
+  printf "Available actions:\n"
+  awk '/^  [a-zA-Z]*\)/ { \
+    print substr($1, 0, index($1, ")")-1); \
+    if (match(prev, /^  ## (.*)/)) { \
+      printf "\t%s\n", substr(prev, RSTART + 5, RLENGTH); \
+    } \
+  } \
+  { prev = $$0 } \' "${0}"
+}
 
 USERNAME='gatlin@niltag.net'
 PASSWORD=$(gpg -dq $HOME/.owncloudcmd.gpg)
 
+# TODO these should at least be optional arguments
 SRC_DIR=$HOME/Nextcloud
 REMOTE_DIR='https://box.niltag.net/cloud/'
 
 # sync caldav
-vdirsyncer sync
+function sync_personal_info {
+  vdirsyncer sync
+}
 
 # sync files
-owncloudcmd \
-  -u "$USERNAME" \
-  -p "$PASSWORD" \
-  --non-interactive \
-  "$SRC_DIR" \
-  "$REMOTE_DIR"
+function sync_files {
+  owncloudcmd \
+    -u "$USERNAME" \
+    -p "$PASSWORD" \
+    --non-interactive \
+    "$SRC_DIR" \
+    "$REMOTE_DIR"
+}
+
+ACTION="${1}"
+
+case "$ACTION" in
+  ## Only sync personal info (eg, calendar, contacts, todo, etc).
+  pi)
+    sync_personal_info
+    ;;
+
+  ## Only sync files.
+  files)
+    sync_files
+    ;;
+
+  ## Sync everything.
+  all)
+    sync_personal_info
+    sync_files
+    ;;
+
+  *)
+    print_help
+    ;;
+
+esac

@@ -46,6 +46,9 @@ if [ -z "${1}" ]; then
 fi
 
 CMD="${1}"
+FZF="fzf --reverse --disabled"
+DMENU="dmenu -l 10 -p >"
+
 
 case "${CMD}" in
 
@@ -83,12 +86,12 @@ case "${CMD}" in
     if running_interactively ; then
       bluetoothctl -- devices | \
         cut -d' ' -f2- | \
-        fzf --reverse --with-nth=2.. \
+        $FZF --with-nth=2.. \
         --bind 'enter:execute(bluetoothctl -- connect {1})'
     else
       bluetoothctl -- connect \
         $(bluetoothctl -- devices | \
-        dmenu -l 10 -p '>' | \
+        $DMENU | \
         cut -d' ' -f2)
     fi
     ;;
@@ -102,12 +105,12 @@ case "${CMD}" in
     if running_interactively ; then
       bluetoothctl -- devices | \
         cut -d' ' -f2- | \
-        fzf --reverse --with-nth=2.. \
+        $FZF --with-nth=2.. \
         --bind 'enter:execute(bluetoothctl -- disconnect {1})'
     else
       bluetoothctl -- disconnect \
         $(bluetoothctl -- devices | \
-        dmenu -l 10 -p '>' | \
+        $DMENU | \
         cut -d' ' -f2)
     fi
     ;;
