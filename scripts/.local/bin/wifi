@@ -27,11 +27,7 @@ function print_help {
 }
 
 ACTION="${1}"
-if running_interactively; then
-  MENU="fzf --sync --reverse --header-lines=1 --prompt 📡"
-else
-  MENU="dmenu -l 10 -p 📡"
-fi
+MENU="fzf --sync --reverse --prompt 📡"
 
 if [ -z "${ACTION}" ]; then
   if running_interactively; then
