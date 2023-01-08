@@ -1,0 +1,26 @@
+From 30422ae27c29c09be73992ecea99515de35fe02b Mon Sep 17 00:00:00 2001
+From: Gatlin Cheyenne Johnson <gatlin@niltag.net>
+Date: Sun, 8 Jan 2023 11:00:59 -0600
+Subject: [PATCH] Enabling image support in w3m. Compatible with st 0.9.
+
+---
+ x.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/x.c b/x.c
+index 2a3bd38..f4b491f 100644
+--- a/x.c
++++ b/x.c
+@@ -1642,6 +1642,9 @@ xsettitle(char *p)
+ int
+ xstartdraw(void)
+ {
++	if (IS_SET(MODE_VISIBLE)) {
++		XCopyArea(xw.dpy, xw.win, xw.buf, dc.gc, 0, 0, win.w, win.h, 0, 0);
++	}
+ 	return IS_SET(MODE_VISIBLE);
+ }
+ 
+-- 
+2.39.0
+
