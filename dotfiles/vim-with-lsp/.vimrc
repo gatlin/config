@@ -43,7 +43,7 @@ let lspOpts = { 'autoHighlightDiags': v:true }
 
 " }}}
 
-" BASICS ----------------------------------------------------------------- {{{
+" BEHAVIOR --------------------------------------------------------------- {{{
 " Indentation
 set autoindent
 set smartindent
@@ -69,7 +69,6 @@ set nohlsearch
 " Key mappings
 set pastetoggle=<F3>
 nmap     <silent> <Space>    za:nohlsearch<CR>
-nmap w1 :.w >>\\#bookz/in<cr>
 nnoremap <C-g> :Rg<Cr>
 nnoremap <C-f> :FZF<Cr>
 nnoremap <C-n> :NERDTreeTabsToggle<Cr>
@@ -105,7 +104,7 @@ set mouse=a
 set ttymouse=sgr
 " }}}
 
-" Appearance ------------------------------------------------------------- {{{
+" APPEARANCE ------------------------------------------------------------- {{{
 " Text display
 set t_Co=256
 colorscheme torte

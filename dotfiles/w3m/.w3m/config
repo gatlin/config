@@ -64,7 +64,7 @@ urimethodmap ~/.w3m/urimethodmap, /etc/w3m/urimethodmap
 editor sensible-editor
 mailto_options 1
 mailer xdg-open mailto:%s
-extbrowser sh -c 'printf %s "$0" | xclip'
+extbrowser sh -c 'printf %s "$0" | xclip -sel clip'
 extbrowser2 
 extbrowser3 
 extbrowser4 
