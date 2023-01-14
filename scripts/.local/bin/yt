@@ -17,4 +17,4 @@ yt-dlp \
   --preview "yt-dlp --dump-single-json --no-download {1} 2>/dev/null | jq '.description'" \
   --preview-window wrap \
   --bind "enter:execute(yt-dlp '{1}' -o - | mpv -)" \
-  --bind "ctrl-space:execute(yt-dlp '{1}')"
+  --bind "alt-space:execute(yt-dlp '{1}')"

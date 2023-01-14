@@ -1,12 +1,26 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+function viewpkg {
+  PKG="${1}"
+  if [ -z "${PKG}" ]; then
+    exit 1
+  fi
+  echo "$(apt -qq list 2>/dev/null ${1} | grep installed)"
+  echo "$(apt info ${1} 2>/dev/null)"
+}
+
+export -f viewpkg
 
 apt-cache pkgnames | \
   fzf --multi --reverse \
-  --preview 'echo $(apt -qq list 2>/dev/null {1} | grep installed) && echo $(apt info {1} 2>/dev/null)' \
-  --preview-window 'wrap,up,60%' \
-  --bind 'ctrl-i:execute(sudo apt install {1})' \
-  --bind 'ctrl-u:execute(sudo apt remove {1..})' \
-  --bind 'ctrl-s:execute(sudo apt source {1})' \
+  --preview 'bash -c "viewpkg {1}"' \
+  --preview-label 'Package Information' \
+  --preview-window 'wrap,top,45%' \
+  --bind 'alt-i:execute(sudo apt install {1..})' \
+  --bind 'alt-r:execute(sudo apt remove {1..})' \
+  --bind 'alt-s:execute(sudo apt source {1..})' \
+  --bind 'alt-u:execute(sudo apt update -y)' \
+  --bind 'alt-r:reload(apt-cache pkgnames)' \
   --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108 \
   --color info:108,prompt:109,spinner:108,pointer:168,marker:168
 exit 0
