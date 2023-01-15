@@ -3,6 +3,7 @@
 BROWSER=$(which surf)
 TERMINAL=$(which st)
 EDITOR=$(which vim)
+
 exec &> /dev/null
 
 while read -r arg; do
@@ -25,7 +26,7 @@ while read -r arg; do
       mupdf-gl "$arg" &
       ;;
     *.mp3)
-      $TERMINAL mpg123 -opulse "$arg" &
+      $TERMINAL mpg123 -opulse $arg &
       ;;
     *.html)
       $BROWSER "$arg" &

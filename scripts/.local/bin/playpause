@@ -13,19 +13,23 @@ fi
 COMMAND="${1}"
 echo "COMMAND: ${COMMAND}" >> playpause.log
 
-# is MPD playing?
-MPD_PLAYING=$(mpc status | tail -n2 | head -n1 | awk ' \
-  /paused/ { print 0 } \
-  /play/ { print 1 }')
-
-# check to see if any other likely applications are already running
-# (it's likely the button press was intended for them).
-
-
-if [ $MPD_PLAYING -eq "0" ]; then
-  mpc play
-else
-  mpc pause
+# first: is ncmpcpp running? if so, relay the event.
+if pgrep -x "ncmpcpp" >/dev/null; then
+  # is MPD playing?
+  MPD_PLAYING=$(mpc status | tail -n2 | head -n1 | awk ' \
+    /paused/ { print 0 } \
+    /play/ { print 1 }')
+  # check to see if any other likely applications are already running
+  # (it's likely the button press was intended for them).
+  if [ $MPD_PLAYING -eq "0" ]; then
+    mpc play
+  else
+    mpc pause
+  fi
 fi
 
+# second: check to see if there's an mpg123 session.
+if pgrep -x "mpg123" >/dev/null; then
+  echo "P" >> $HOME/.mpg123ctl
+fi
 exit 0

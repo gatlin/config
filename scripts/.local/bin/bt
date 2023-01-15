@@ -118,16 +118,24 @@ case "${CMD}" in
   ## List paired devices
   paired)
     if running_interactively; then
-      bluetoothctl -- info | \
-        tr -d "\t" | \
-        awk '/Name/ { devName = $0; } /Paired\: yes/ { printf devName; } ' | \
-        sed 's/Name: \(.*\)/\1\n/'
+      bluetoothctl -- devices Paired | \
+        cut -d ' ' -f3-
     else
-      bluetoothctl -- info | \
-        tr -d "\t" | \
-        awk '/Name/ { devName = $0; } /Paired\: yes/ { printf devName; } ' | \
-        sed 's/Name: \(.*\)/\1\n/' | \
-        xargs -I{} notify-send "{}"
+      DEVICES=$(bluetoothctl -- devices Paired | \
+        cut -d ' ' -f3- | tr -s '\n')
+      echo "${DEVICES}" | xargs -I{} notify-send "{}"
+    fi
+    ;;
+
+  ## List connected devices.
+  connected)
+    if running_interactively; then
+      bluetoothctl -- devices Connected | \
+        cut -d ' ' -f3-
+    else
+      DEVICES=$(bluetoothctl -- devices Connected | \
+        cut -d ' ' -f3- | tr -s '\n')
+      echo "${DEVICES}" | xargs -I{} notify-send "{}"
     fi
     ;;
 

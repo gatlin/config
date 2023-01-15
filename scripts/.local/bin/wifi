@@ -27,13 +27,13 @@ function print_help {
 }
 
 ACTION="${1}"
-MENU="fzf --sync --reverse --prompt 📡"
+MENU="fzf --sync --reverse --prompt 📡 --header-lines 1 --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108  --color info:108,prompt:109,spinner:108,pointer:168,marker:168"
 
 if [ -z "${ACTION}" ]; then
   if running_interactively; then
     print_help
   else
-    say "Run $PROGRAM_NAME from the console for usage help."
+    notify-send "Run $PROGRAM_NAME from the console for usage help."
   fi
   exit 1
 fi
@@ -53,7 +53,7 @@ case "${ACTION}" in
   connect)
     SSID="${2}"
     if [ -z "${SSID}" ]; then
-      SSID=$(nmcli dev wifi list | tail -n+2 | $MENU | sed 's/^\*\(.*\)/\1/' | tr -s ' ' | cut -f2 -d ' ')
+      SSID=$(nmcli dev wifi list | $MENU | sed 's/^\*\(.*\)/\1/' | tr -s ' ' | cut -f2 -d ' ')
     fi
     if [ -z "${SSID}" ]; then
       exit 1
@@ -77,7 +77,7 @@ case "${ACTION}" in
   saved)
     NAME="${2}"
     if [ -z "${NAME}" ]; then
-      SSID=$(nmcli dev wifi list | tail -n+2 | $MENU | sed 's/^\*\(.*\)/\1/' | tr -s ' ' | cut -f2 -d ' ')
+      SSID=$(nmcli dev wifi list | $MENU | sed 's/^\*\(.*\)/\1/' | tr -s ' ' | cut -f2 -d ' ')
       nmcli con show
     else
       nmcli con up "${NAME}"
