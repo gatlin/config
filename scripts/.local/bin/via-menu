@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dmenu -p "‽" -i -l 10
+dmenu -b -p "‽" -i -l 10

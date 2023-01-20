@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BROWSER=$(which surf)
+BROWSER=$(which firefox)
 TERMINAL=$(which st)
 EDITOR=$(which vim)
 

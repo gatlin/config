@@ -5,6 +5,17 @@ if [ -z $1 ]; then
   exit 1
 fi
 
+function showvideodescription {
+  URL="${1}"
+  if [ -z "${URL}" ]; then
+    exit 1
+  fi
+  echo $(yt-dlp --dump-single-json --no-download "${URL}" 2>/dev/null | \
+    jq '.description')
+}
+
+export -f showvideodescription
+
 SEARCHTERMS="$@"
 
 yt-dlp \
@@ -14,7 +25,9 @@ yt-dlp \
   fzf --reverse \
   --disabled \
   --with-nth=2.. \
-  --preview "yt-dlp --dump-single-json --no-download {1} 2>/dev/null | jq '.description'" \
+  --preview "bash -c 'showvideodescription {1}'" \
   --preview-window wrap \
   --bind "alt-p:execute(yt-dlp '{1}' -o - | mpv -)" \
-  --bind "enter:execute(yt-dlp '{1}')"
+  --bind "enter:execute(yt-dlp '{1}')" \
+  --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108 \
+  --color info:108,prompt:109,spinner:108,pointer:168,marker:168
