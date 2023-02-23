@@ -47,6 +47,11 @@ function sync_files {
     "$REMOTE_DIR"
 }
 
+function reload_via {
+  VIA=$(which via)
+  $VIA -ro 2> /dev/null
+}
+
 ACTION="${1}"
 
 case "$ACTION" in
@@ -60,10 +65,16 @@ case "$ACTION" in
     sync_files
     ;;
 
+  ## Reload the via file cache
+  via)
+    reload_via
+    ;;
+
   ## Sync everything.
   all)
-    sync_personal_info
     sync_files
+    sync_personal_info
+    reload_via
     ;;
 
   *)

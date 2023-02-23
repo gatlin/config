@@ -131,7 +131,7 @@ haddock
   -- executables: False
   -- tests: False
   -- benchmarks: False
-  foreign-libraries: True
+  foreign-libraries: False
   -- all:
   -- internal: False
   css: /home/gcj/.cabal/haddock.css

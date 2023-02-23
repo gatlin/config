@@ -12,11 +12,16 @@ let g:ale_fixers = {
 \   'javascript': ['prettier'],
 \   'typescript': ['prettier'],
 \   'zig': ['zigfmt'],
-\   'haskell': ['hlint'],
 \   'python': ['black'],
+\   'haskell': ['hlint'],
 \}
 
 let lspServers = [
+  \#{
+  \  filetype: 'haskell',
+  \  path: 'haskell-language-server-wrapper',
+  \  args: ['--lsp', '--debug']
+  \},
   \#{
   \  filetype: 'vim',
   \  path: 'vim-language-server',
