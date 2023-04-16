@@ -22,7 +22,7 @@ Utilities assumed by various scripts and configs:
 - `urlscan`
 - `w3m` and its `w3mimg` image loading extensions
 - `newsboat`
-- `urlscan`
+- awk / grep / the usual gang
 
 # Dotfiles
 

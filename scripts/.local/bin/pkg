@@ -21,7 +21,7 @@ apt-cache pkgnames | \
   --bind 'alt-s:execute(sudo apt source {1..})' \
   --bind 'alt-u:execute(sudo apt update -y)' \
   --bind 'alt-enter:execute(sudo apt upgrade -y)' \
-  --bind 'alt-r:reload(apt-cache pkgnames)' \
+  --bind 'alt-l:reload(apt-cache pkgnames)' \
   --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108 \
   --color info:108,prompt:109,spinner:108,pointer:168,marker:168
 exit 0

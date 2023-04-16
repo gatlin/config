@@ -146,6 +146,9 @@ endif
 " ensure zig is a recognized filetype
 autocmd BufNewFile,BufRead *.zig set filetype=zig
 
+" ensure hsc is recognized
+autocmd BufNewFile,BufRead *.hsc set filetype=haskell
+
 " Check if vim-plug is installed and install it if not.
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
