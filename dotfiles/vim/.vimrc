@@ -17,7 +17,7 @@ let g:ale_fixers = {
 \}
 " }}}
 
-" BASICS ----------------------------------------------------------------- {{{
+" BEHAVIOR --------------------------------------------------------------- {{{
 " Indentation
 set autoindent
 set smartindent
@@ -79,7 +79,7 @@ set mouse=a
 set ttymouse=sgr
 " }}}
 
-" Appearance ------------------------------------------------------------- {{{
+" APPEARANCE ------------------------------------------------------------- {{{
 " Text display
 set t_Co=256
 colorscheme torte

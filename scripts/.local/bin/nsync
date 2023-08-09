@@ -35,6 +35,7 @@ REMOTE_DIR='https://box.niltag.net/cloud/'
 # sync caldav
 function sync_personal_info {
   vdirsyncer sync
+  #$HOME/.local/bin/vdirsyncer sync
 }
 
 # sync files

@@ -15,6 +15,7 @@ let g:ale_fixers = {
 \   'python': ['black'],
 \   'haskell': ['hlint'],
 \}
+let g:ale_disable_lsp = 1
 
 let lspServers = [
   \#{
@@ -44,7 +45,7 @@ let lspServers = [
   \},
 \ ]
 autocmd VimEnter * call LspAddServer(lspServers)
-let lspOpts = { 'autoHighlightDiags': v:false }
+let lspOpts = { 'autoHighlightDiags': v:true }
 autocmd VimEnter * call LspOptionsSet(lspOpts)
 
 " }}}
@@ -176,6 +177,9 @@ endif
 
 " ensure zig is a recognized filetype
 autocmd BufNewFile,BufRead *.zig set filetype=zig
+
+" ensure hsc is recognized
+autocmd BufNewFile,BufRead *.hsc set filetype=haskell
 
 " Check if vim-plug is installed and install it if not.
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'

@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ -z $1 ]; then
-  echo "Please specify search terms"
-  exit 1
-fi
-
 function showvideodescription {
   URL="${1}"
   if [ -z "${URL}" ]; then
@@ -18,16 +13,21 @@ export -f showvideodescription
 
 SEARCHTERMS="$@"
 
-yt-dlp \
-  -i ytsearch10:"${SEARCHTERMS}" \
-  --get-id --get-title 2>/dev/null | \
-  awk -v RS= -F'\n' '{ for (i=1; i<NF; i+=2) print $(i+1), $i; print ""}' | \
-  fzf --reverse \
-  --disabled \
-  --with-nth=2.. \
-  --preview "bash -c 'showvideodescription {1}'" \
-  --preview-window wrap \
-  --bind "alt-p:execute(yt-dlp '{1}' -o - | mpv -)" \
-  --bind "enter:execute(yt-dlp '{1}')" \
-  --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108 \
-  --color info:108,prompt:109,spinner:108,pointer:168,marker:168
+if [ -z "${SEARCHTERMS}" ]; then
+  echo "Please enter search terms."
+else
+  yt-dlp \
+    -i ytsearch10:"${SEARCHTERMS}" \
+    --get-id --get-title 2>/dev/null | \
+    awk -v RS= -F'\n' '{ for (i=1; i<NF; i+=2) print $(i+1), $i; print ""}' | \
+    fzf --reverse \
+    --disabled \
+    --with-nth=2.. \
+    --preview "bash -c 'showvideodescription {1}'" \
+    --preview-window wrap \
+    --bind "alt-p:execute(yt-dlp '{1}' -o - | mpv -)" \
+    --bind "alt-d:execute(yt-dlp '{1}')" \
+    --bind "alt-c:execute('{1}' | xclip -sel clip)" \
+    --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108 \
+    --color info:108,prompt:109,spinner:108,pointer:168,marker:168
+fi
