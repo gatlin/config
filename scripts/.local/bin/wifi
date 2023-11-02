@@ -1,9 +1,10 @@
 #!/bin/bash
 
 ###
-# Control system wifi connections and VPNs.
+# Control system wifi and VPN connections.
 
 PROGRAM_NAME=$(basename $0) # This will be used in a few messages
+
 function running_interactively { [ -t 0 ] && [ -t 2 ]; }
 
 function say {
@@ -15,7 +16,7 @@ function say {
 }
 
 function print_help {
-  printf "Usage:  $PROGRAM_NAME [action] (action arguments ...)\n"
+  printf "Usage:\t$PROGRAM_NAME [action] (action arguments ...)\n"
   printf "Available actions:\n"
   awk '/^  [a-zA-Z]*\)/ { \
     print substr($1, 0, index($1, ")")-1); \
@@ -26,28 +27,20 @@ function print_help {
   { prev = $$0 } \' "${0}"
 }
 
-ACTION="${1}"
-MENU="fzf --sync --reverse --prompt 📡 --header-lines 1 --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108  --color info:108,prompt:109,spinner:108,pointer:168,marker:168"
-
-if [ -z "${ACTION}" ]; then
-  if running_interactively; then
+if [ -z "${1}" ]; then
+  if running_interactively ; then
     print_help
   else
-    notify-send "Run $PROGRAM_NAME from the console for usage help."
+    notify-send "Run $PROGRAM_NAME from terminal for usage help."
   fi
   exit 1
 fi
 
-case "${ACTION}" in
-  ## List available network SSIDs.
-  list)
-    nmcli dev wifi list
-    ;;
+CMD="${1}"
+MENU="fzf --sync --reverse --prompt 📡 --header-lines 1 --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108  --color info:108,prompt:109,spinner:108,pointer:168,marker:168"
 
-  ## Information about known networks.
-  info)
-    nmcli con show
-    ;;
+
+case "${CMD}" in
 
   ## Connect to the specified network SSID.
   connect)
@@ -82,6 +75,16 @@ case "${ACTION}" in
     else
       nmcli con up "${NAME}"
     fi
+    ;;
+
+  ## List available network SSIDs.
+  list)
+    nmcli dev wifi list
+    ;;
+
+  ## Details about current connections.
+  detail)
+    nmcli con show
     ;;
 
   ## Import, start, and stop OpenVPN profiles.
@@ -127,4 +130,3 @@ case "${ACTION}" in
 esac
 
 exit 0
-
