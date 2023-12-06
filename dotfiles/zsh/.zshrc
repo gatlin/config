@@ -133,3 +133,4 @@ export LESS="-R"
 if [ -f "/usr/share/source-highlight/src-hilite-lesspipe.sh" ]; then
   export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
 fi
+export LIBVIRT_DEFAULT_URI='qemu:///system'
