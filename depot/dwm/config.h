@@ -30,9 +30,9 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "st",       NULL,       NULL,       0,            0,           -1 },
-	//{ "Firefox",  NULL,       NULL,       1 << 1,       0,           -1 },
+  // Tag 3 = The "Threeater"
   { "feh",      NULL,       NULL,       1 << 2,       0,           -1 },
-  { "mpv",      NULL,       NULL,       1 << 3,       0,           -1 },
+  { "mpv",      NULL,       NULL,       1 << 2,       0,           -1 },
 };
 
 /* layout(s) */
