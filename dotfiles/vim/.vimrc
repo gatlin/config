@@ -105,6 +105,13 @@ set winwidth=80
 set nowrap
 set nohlsearch
 
+" Window borders
+set fillchars+=vert:║
+hi LineNr ctermbg=bg
+set foldcolumn=2
+hi foldcolumn ctermbg=bg
+hi VertSplit ctermbg=bg ctermfg=fg
+
 " Cursor line and ruler
 set noruler
 set cursorline
