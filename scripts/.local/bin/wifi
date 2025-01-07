@@ -84,7 +84,7 @@ case "${CMD}" in
 
   ## Details about current connections.
   detail)
-    nmcli con show
+    nmcli --colors=yes con show
     ;;
 
   ## Import, start, and stop OpenVPN profiles.
