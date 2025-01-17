@@ -1,4 +1,4 @@
-browser "w3m %u"
+browser "firefox %u"
 external-url-viewer "urlscan"
 bind-key U show-urls
 urls-source "ocnews"
