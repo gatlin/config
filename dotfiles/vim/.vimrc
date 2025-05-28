@@ -8,12 +8,15 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='luna'
 let g:ale_zig_zls_executable = '/usr/local/bin/zls'
 let g:ale_fix_on_save = 1
+let g:ale_linters = {
+\   'haskell': ['hlint', 'hls']
+\}
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
 \   'typescript': ['prettier'],
 \   'zig': ['zigfmt'],
-\   'haskell': ['hlint'],
 \   'python': ['black'],
+\   'haskell': ['hlint'],
 \}
 " }}}
 
@@ -70,7 +73,10 @@ cnoremap <Right> <Space><BS><Right>
 
 " File browser
 let netrw_browse_split=4
-"
+
+" Tag bar / document outline
+nmap <F8> :TagbarToggle<CR>
+
 " Other
 set scrolloff=5
 set backspace=indent,eol,start
@@ -106,7 +112,7 @@ set nowrap
 set nohlsearch
 
 " Window borders
-set fillchars+=vert:║
+set fillchars+=vert:\│
 hi LineNr ctermbg=bg
 set foldcolumn=2
 hi foldcolumn ctermbg=bg
@@ -185,6 +191,7 @@ call plug#begin(data_dir . '/plugged')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   Plug 'christoomey/vim-tmux-navigator'
+  Plug 'preservim/tagbar'
 
 call plug#end()
 " }}}
